@@ -72,10 +72,12 @@
                 <!-- Logo -->
                 <div class="col-md-3 col-6">
                     <a href="{{ route('home') }}" class="text-decoration-none d-flex align-items-center">
-                        <span class="text-white fw-bold fs-3 me-2">{{ strtoupper(explode(' ', config('app.name', 'GamePoint'))[0]) }}</span>
+                        {{-- <span class="text-white fw-bold fs-3 me-2">{{ strtoupper(explode(' ', config('app.name', 'GamePoint'))[0]) }}</span> --}}
+                        <span class="text-white fw-bold fs-3 me-2">GAME</span>
                         <span class="bg-warning text-dark fw-bold px-2 py-1 border border-dark" style="background-color: #ffeb3b !important;">
                             {{ strtoupper(explode(' ', config('app.name', 'GamePoint'))[1] ?? 'POINT') }}
                         </span>
+                        {{-- <img src="/assets/img/logo.png" alt="Game Point Logo" style="height: 80px; width: 150px;"> --}}
                     </a>
                 </div>
                 
@@ -213,10 +215,10 @@
                     <!-- Company Information -->
                     <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                         <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">
-                            <span class="text-white">COMPUTER</span> <span style="color: #FFD500;">ZONE</span>
+                            <span class="text-white">GAME</span> <span style="color: #FFD500;">POINT</span>
                         </h5>
                         <p class="text-white-50" style="font-size: 14px; line-height: 1.6;">
-                            Welcome to Computer Zone. Online Computer store in Pakistan. Buy Dell, Lenovo, HP, Acer laptops at the best prices in Pakistan.
+                            Welcome to Game Point. Online Computer store in Pakistan. Buy Dell, Lenovo, HP, Acer laptops at the best prices in Pakistan.
                         </p>
                     </div>
 
@@ -277,11 +279,11 @@
                         <ul class="list-unstyled">
                             <li class="mb-2 text-white-50" style="font-size: 14px; line-height: 1.6;">
                                 <i class="fas fa-map-marker-alt me-2" style="color: #FFD500;"></i>
-                                FL 4/20, Main Rashid Minhas Road, Gulshan-e-Iqbal Block-5, Karachi, Pakistan.
+                               Shop M-185, Mezzanine Floor, Gate 5, Naz plaza, Main M.A Jinnah Road, Saddar., Karachi, Pakistan
                             </li>
                             <li class="mb-2 text-white-50" style="font-size: 14px;">
                                 <i class="fas fa-phone me-2" style="color: #FFD500;"></i>
-                                <span>+922134817355 | +922134155030 | +922134960583 | +923001129663</span>
+                                <span>0342 2383693</span>
                             </li>
                             <li class="mb-2 text-white-50" style="font-size: 12px;">
                                 WhatsApp Message Only
