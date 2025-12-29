@@ -40,13 +40,17 @@
                             @foreach($products as $product)
                                 <tr>
                                     <td>
-                                        @if($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" 
-                                                 alt="{{ $product->name }}" 
-                                                 style="width: 60px; height: 60px; object-fit: cover;">
-                                        @else
-                                            <i class="fas fa-image fa-2x text-muted"></i>
-                                        @endif
+                                        <div style="width: 60px; height: 60px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border: 1px solid #dee2e6; border-radius: 4px; overflow: hidden;">
+                                            @if($product->image)
+                                                <img src="{{ asset('storage/' . $product->image) }}" 
+                                                     alt="{{ $product->name }}" 
+                                                     style="width: 100%; height: 100%; object-fit: cover;"
+                                                     loading="lazy"
+                                                     onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-image text-muted\'></i>';">
+                                            @else
+                                                <i class="fas fa-image text-muted"></i>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td>{{ $product->name }}</td>
                                     <td><code>{{ $product->sku }}</code></td>
@@ -91,8 +95,8 @@
                 </div>
                 
                 <!-- Pagination -->
-                <div class="mt-4">
-                    {{ $products->links() }}
+                <div class="mt-4 d-flex justify-content-center">
+                    {{ $products->links('vendor.pagination.bootstrap-5') }}
                 </div>
             @else
                 <p class="text-center text-muted">No products found. <a href="{{ route('admin.products.create') }}">Create one now</a>.</p>

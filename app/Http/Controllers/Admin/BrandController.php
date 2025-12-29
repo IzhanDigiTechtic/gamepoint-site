@@ -25,13 +25,13 @@ class BrandController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:brands,name',
-            'is_active' => 'nullable|boolean',
+            'is_active' => 'nullable|in:0,1',
         ]);
 
         Brand::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'is_active' => $request->has('is_active'),
+            'is_active' => $request->input('is_active', 0) == 1,
         ]);
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand created successfully!');
@@ -51,13 +51,13 @@ class BrandController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:brands,name,' . $brand->id,
-            'is_active' => 'nullable|boolean',
+            'is_active' => 'nullable|in:0,1',
         ]);
 
         $brand->update([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'is_active' => $request->has('is_active'),
+            'is_active' => $request->input('is_active', 0) == 1,
         ]);
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand updated successfully!');

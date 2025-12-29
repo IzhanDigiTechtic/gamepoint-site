@@ -18,6 +18,7 @@
           referrerpolicy="no-referrer">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body>
     <!-- Top Utility Bar -->
@@ -168,61 +169,129 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light mt-5">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="mb-3">{{ config('app.name', 'GamePoint') }}</h5>
-                    <p class="text-muted">Your trusted source for quality gaming products. We offer the best prices and fastest delivery.</p>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{{ route('products.index') }}" class="text-light text-decoration-none">All Products</a></li>
-                        @auth
-                            <li class="mb-2"><a href="{{ route('dashboard') }}" class="text-light text-decoration-none">My Account</a></li>
-                        @else
-                            <li class="mb-2"><a href="{{ route('login') }}" class="text-light text-decoration-none">Login</a></li>
-                            <li class="mb-2"><a href="{{ route('register') }}" class="text-light text-decoration-none">Register</a></li>
-                        @endauth
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="mb-3">Categories</h5>
-                    <ul class="list-unstyled">
-                        @php
-                            $footerCategories = \App\Models\Category::where('is_active', true)->take(5)->get();
-                        @endphp
-                        @foreach($footerCategories as $category)
-                            <li class="mb-2">
-                                <a href="{{ route('products.index', ['category' => $category->id]) }}" class="text-light text-decoration-none">
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="mb-3">Contact Us</h5>
-                    <ul class="list-unstyled text-muted">
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +92 300 1234567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@gamepoint.com</li>
-                        <li class="mb-2">
-                            <a href="https://wa.me/1234567890" target="_blank" class="text-success text-decoration-none">
-                                <i class="fab fa-whatsapp me-2"></i> WhatsApp Us
-                            </a>
-                        </li>
-                    </ul>
+    <footer class="mt-5">
+        <!-- Newsletter Bar (Dark Blue) -->
+        <div class="footer-newsletter-bar" style="background-color: #003366; padding: 15px 0;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-3 col-4 text-center text-md-start mb-2 mb-md-0">
+                        <a href="#" target="_blank" class="text-white text-decoration-none">
+                            <i class="fab fa-facebook-f" style="font-size: 24px; background: white; color: #003366; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px;"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-8 text-center text-md-start mb-2 mb-md-0">
+                        <span class="text-white fw-bold text-uppercase" style="font-size: 14px; letter-spacing: 0.5px;">
+                            <i class="far fa-envelope me-2"></i>SIGN UP FOR NEWSLETTER
+                        </span>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-12">
+                        <form action="{{ route('newsletter.subscribe') }}" method="POST" class="d-flex gap-2">
+                            @csrf
+                            <input type="email" name="email" class="form-control" placeholder="Email Address" required style="flex: 1; border-radius: 4px 0 0 4px; border: none;">
+                            <button type="submit" class="btn text-white fw-bold text-uppercase" style="background-color: #FFD500; border-radius: 0 4px 4px 0; border: none; padding: 8px 20px; white-space: nowrap;">
+                                SUBSCRIBE →
+                            </button>
+                        </form>
+                        @if(session('newsletter_success'))
+                            <div class="alert alert-success alert-dismissible fade show mt-2 mb-0" role="alert" style="font-size: 12px; padding: 5px 10px;">
+                                {{ session('newsletter_success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="font-size: 10px;"></button>
+                            </div>
+                        @endif
+                        @if($errors->has('email'))
+                            <div class="text-warning mt-1" style="font-size: 12px;">{{ $errors->first('email') }}</div>
+                        @endif
+                    </div>
                 </div>
             </div>
-            <hr class="bg-light my-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="text-muted mb-0">&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="text-muted mb-0">Designed with <i class="fas fa-heart text-danger"></i> for gamers</p>
+        </div>
+
+        <!-- Main Footer Content (Medium Blue) -->
+        <div class="footer-main" style="background-color: #1a4d7a; color: white; padding: 40px 0;">
+            <div class="container">
+                <div class="row">
+                    <!-- Company Information -->
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">
+                            <span class="text-white">COMPUTER</span> <span style="color: #FFD500;">ZONE</span>
+                        </h5>
+                        <p class="text-white-50" style="font-size: 14px; line-height: 1.6;">
+                            Welcome to Computer Zone. Online Computer store in Pakistan. Buy Dell, Lenovo, HP, Acer laptops at the best prices in Pakistan.
+                        </p>
+                    </div>
+
+                    <!-- Products -->
+                    <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                        <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">PRODUCTS</h5>
+                        <ul class="list-unstyled">
+                            @php
+                                $footerCategories = \App\Models\Category::where('is_active', true)->take(5)->get();
+                            @endphp
+                            @if($footerCategories->count() > 0)
+                                @foreach($footerCategories as $category)
+                                    <li class="mb-2">
+                                        <a href="{{ route('products.index', ['category' => $category->id]) }}" class="text-white-50 text-decoration-none" style="font-size: 14px; transition: color 0.2s;">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li class="mb-2"><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Laptops</a></li>
+                                <li class="mb-2"><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Printers</a></li>
+                                <li class="mb-2"><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Hard Drives</a></li>
+                                <li class="mb-2"><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Network Products</a></li>
+                                <li class="mb-2"><a href="{{ route('products.index') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Monitors</a></li>
+                            @endif
+                        </ul>
+                    </div>
+
+                    <!-- Account -->
+                    <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                        <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">ACCOUNT</h5>
+                        <ul class="list-unstyled">
+                            @auth
+                                <li class="mb-2"><a href="{{ route('dashboard') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">My Account</a></li>
+                            @else
+                                <li class="mb-2"><a href="{{ route('register') }}" class="text-white-50 text-decoration-none" style="font-size: 14px;">Sign Up</a></li>
+                            @endauth
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">Shopping Cart</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">Order History</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Corporate -->
+                    <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                        <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">CORPORATE</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">About Us</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">Contact</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">FAQs</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">Policies</a></li>
+                            <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none" style="font-size: 14px;">Picture Gallery</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white fw-bold text-uppercase mb-3" style="font-size: 16px; letter-spacing: 0.5px;">CONTACT</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2 text-white-50" style="font-size: 14px; line-height: 1.6;">
+                                <i class="fas fa-map-marker-alt me-2" style="color: #FFD500;"></i>
+                                FL 4/20, Main Rashid Minhas Road, Gulshan-e-Iqbal Block-5, Karachi, Pakistan.
+                            </li>
+                            <li class="mb-2 text-white-50" style="font-size: 14px;">
+                                <i class="fas fa-phone me-2" style="color: #FFD500;"></i>
+                                <span>+922134817355 | +922134155030 | +922134960583 | +923001129663</span>
+                            </li>
+                            <li class="mb-2 text-white-50" style="font-size: 12px;">
+                                WhatsApp Message Only
+                            </li>
+                            <li class="mb-2 text-white-50" style="font-size: 14px;">
+                                <i class="fas fa-envelope me-2" style="color: #FFD500;"></i>
+                                info@gamepoint.com
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,5 +305,7 @@
        title="Contact us on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
+    
+    @stack('scripts')
 </body>
 </html>

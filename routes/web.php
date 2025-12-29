@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 Route::post('/products/{product}/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {

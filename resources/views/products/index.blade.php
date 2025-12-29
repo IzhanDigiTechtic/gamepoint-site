@@ -83,8 +83,17 @@
                             <div class="card h-100 product-card border-0 shadow-sm">
                                 <a href="{{ route('products.show', $product->slug) }}" class="text-decoration-none">
                                     <div class="position-relative">
-                                        <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://via.placeholder.com/300' }}" 
-                                             class="card-img-top product-image" alt="{{ $product->name }}">
+                                        <div class="product-image-wrapper" style="height: 250px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                            <img src="{{ $product->image ? asset('storage/' . $product->image) : product_placeholder(300, 250, 'No Image') }}" 
+                                                 class="product-image" 
+                                                 alt="{{ $product->name }}"
+                                                 style="max-width: 100%; max-height: 100%; object-fit: contain; padding: 10px;"
+                                                 loading="lazy"
+                                                 onerror="this.onerror=null; this.src='{{ product_placeholder(300, 250, 'Image Error') }}';">
+                                            <div class="skeleton-loader" style="display: none;">
+                                                <div class="skeleton-image"></div>
+                                            </div>
+                                        </div>
                                         @if($product->sale_price)
                                             <span class="badge bg-danger position-absolute top-0 end-0 m-2">Sale</span>
                                         @endif
